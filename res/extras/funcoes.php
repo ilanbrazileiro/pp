@@ -93,4 +93,18 @@ function mesParaFrente($qtd_mes){
 	
 }
 
+/*
+*	Gera os anos de validade para Cartão de Crédito (Padrão 14 anos)
+*/
+function geraAnosCartao(){
+
+	$years = [];
+
+	for ($y = date("Y"); $y < date("Y")+14; $y++){
+		array_push($years, $y);
+	}
+
+	return $years;
+}
+
  ?>

@@ -70,7 +70,7 @@ class Config {
 	/*
 	** Retorna a URL do Javascript correspondente a utilização
     */
-	public function getUrlJS()
+	public static function getUrlJS()
 	{
 
 		return (Config::SANDBOX === true) ? Config::SANDBOX_URL_JS : Config::PRODUCTION_URL_JS;
