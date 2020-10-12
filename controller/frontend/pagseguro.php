@@ -6,6 +6,7 @@ use Questoes\Model\Clientes;
 use Questoes\Model\Order;
 use GuzzleHttp\Client;
 use Questoes\PagSeguro\Config;
+use Questoes\PagSeguro\Transporter;
 
 ###################### PAGSEGURO #############################
 
@@ -27,14 +28,15 @@ $app->get('/payment/pagseguro', function() {// Suporte
 	$years = geraAnosCartao();
 	$msgError = '';
 	$pagseguro = [
-		'urlJS' => Config::getUrlJS()
+		'urlJS' => Config::getUrlJS(),
+		'id'	=> Transporter::createSession()
 	];
 
 
 	
 	/*
 	echo '<pre>';
-	var_dump($_SESSION['OrderSession']);
+	var_dump(Transporter::createSession());
 	echo '</pre>';
 	*/
 

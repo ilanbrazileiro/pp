@@ -306,7 +306,12 @@
 <script id="tpl-installment" type="text/x-handlebars-template">
     <option>{{quantity}}x de R${{installmentAmount}} com juros (R${{totalAmount}})</option>
 </script>
-<script src="{$pagseguro.urlJS}"></script>
+<script src="<?= $pagseguro['urlJS'] ?>"></script>
+<script type="text/javascript">
+    //Session ID
+      PagSeguroDirectPayment.setSessionId('<?= $pagseguro['id'] ?>');
+      //console.log('<?= $pagseguro['id'] ?>');
+</script>
 
 <!-- FIM DOS JAVASCRIPTS-->
 
