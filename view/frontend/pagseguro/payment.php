@@ -5,31 +5,13 @@
     color: #fff!important;
 }
 </style>
+
+<div class="content-header">
+
+</div>
  
-<!-- CABEÇALHO DO CONTEÚDO -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark"> Bem Vindo <small><?= $cliente->getnome(); ?></small>,</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/">Início</a></li>
-              <li class="breadcrumb-item active">Simulados</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
 <!-- Main content -->
-    <div class="content">
-      <div class="container">
-
+<div class="content">
 
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
@@ -277,16 +259,14 @@
     </div>
 </div>
 
-  </div>
-    <!-- /.content -->
-  </div>
+   </div>
   <!-- /.content-wrapper -->
 
  
 <?php include 'view/frontend/footer.php' ?>
 <!-- JAVA ENTRA AQUI-->
 
-
+<script type="text/javascript" src="/res/frontend/plugin/handlebar/handlebars.runtime-v4.7.6.js"></script>
 
 <script id="tpl-payment-debit" type="text/x-handlebars-template">
     <div class="form-check" style="padding: 10px;">
@@ -310,7 +290,45 @@
 <script type="text/javascript">
     //Session ID
       PagSeguroDirectPayment.setSessionId('<?= $pagseguro['id'] ?>');
-      //console.log('<?= $pagseguro['id'] ?>');
+      /*console.log("<?= $pagseguro['id'] ?>");*/
+
+      getPaymentMethods( <?= $pedido['vlTotal'] ?> );
+
+$(function () {
+   
+   $("#alert-error").hide();
+
+});  
+
+
+
+      function printError(error){
+        
+        var texto = '';
+
+        $.each(error['errors'], (function(key, value){
+            texto += "Foi retornado o código " + key + " com a mensagem: " + value;
+        }));
+
+        $("#alert-error span.msg").text(texto);
+        $("#alert-error").show();        
+
+      }
+      
+      function getPaymentMethods(valor){
+        PagSeguroDirectPayment.getPaymentMethods({
+            amount: valor,
+            success: function(response) {
+                //console.log(JSON.stringify(response));
+                console.log(response);
+            },
+            error: function(response) {
+                printError(response);
+            }
+        })
+      } 
+
+
 </script>
 
 <!-- FIM DOS JAVASCRIPTS-->

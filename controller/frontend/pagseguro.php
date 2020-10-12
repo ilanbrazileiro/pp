@@ -36,7 +36,7 @@ $app->get('/payment/pagseguro', function() {// Suporte
 	
 	/*
 	echo '<pre>';
-	var_dump(Transporter::createSession());
+	var_dump($pedido['vlTotal']);
 	echo '</pre>';
 	*/
 
