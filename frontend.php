@@ -225,5 +225,6 @@ $app->get('/logout', function() {////////////////////
 
 include 'controller/frontend/suporte.php';
 include 'controller/frontend/financeiro.php';
+include 'controller/frontend/pagseguro.php';
 
 ?>
