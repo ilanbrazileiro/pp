@@ -1,0 +1,22 @@
+{
+    "name": "questoes/questoes",
+    "authors": [
+        {
+            "name": "Ilan Brazileiro",
+            "email": "contato@imm-tecnologia.com.br"
+        }
+    ],
+    "require": {
+    	
+    	"slim/slim":"~2.0",
+    	"phpmailer/phpmailer": "~6.1",
+        "google/recaptcha": "^1.2",
+        "guzzlehttp/guzzle": "*"  	
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Questoes\\": "vendor\\src"
+        }
+    }
+}
