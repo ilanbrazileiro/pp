@@ -29,7 +29,9 @@ $app->get('/payment/pagseguro', function() {// Suporte
 	$msgError = '';
 	$pagseguro = [
 		'urlJS' => Config::getUrlJS(),
-		'id'	=> Transporter::createSession()
+		'id'	=> Transporter::createSession(),
+		'maxInstallmentNoInterest'	=> Config::MAX_INSTALLMENT_NO_INTEREST,
+		'maxInstallment'	=> Config::MAX_INSTALLMENT
 	];
 
 

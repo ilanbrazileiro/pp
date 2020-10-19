@@ -42,7 +42,7 @@
 										<h3>Forma de Pagamento</h3>
 
                                         <div id="loading" style="margin:10px 0;">
-                                            <i class="fa fa-refresh fa-spin fa-fw margin-bottom"></i> Carregando métodos de pagamento...
+                                            <i class="fas fa-3x fa-sync-alt fa-spin"></i> Carregando métodos de pagamento...
                                         </div>
 
                                         <div id="payment-methods" class="hide">
@@ -66,29 +66,35 @@
                                                     <form action="/payment/boleto" class="checkout" method="post" name="checkout" style="padding:10px;" id="form-boleto">
 
                                                         <div class="row">
-                                                            <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="cpf_field">CPF:</label>
-                                                                    <input type="text" required="required" placeholder="" id="cpf_field" name="cpf" class="input-text">
+                                                          <div class="col-sm-4">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="cpf_field">CPF:</label>
+                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="nascimento_field">Data de nascimento:</label>
-                                                                    <input type="date" required="required" placeholder="" id="nascimento_field" name="birth" class="input-text" style="margin-bottom: 10px; width: 100%; border: 1px solid #ddd; padding: 2px 10px;">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="nascimento_field">Data de nascimento:</label>
+                                                                    <input type="date" required="required" id="nascimento_field" name="birth" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="telefone_field">Telefone:</label>
-                                                                    <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="input-text" style="float:left; width: 60px;">
-                                                                    <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="input-text" style="float: left; margin-left: 10px; width: calc(100% - 70px);">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="telefone_field">Telefone:</label>
+                                                                    <div class="row">
+                                                                        <div class="col-4 inline-block">
+                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control">
+                                                                        </div>
+                                                                        <div class="col-8 inline-block">
+                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control">
+                                                                        </div>
+                                                                    </div>                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-row place-order">
-                                                                <button type="submit" id="place_order_boleto" name="woocommerce_checkout_place_order" class="button alt btn"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
+                                                        <div class="form-group place-order">
+                                                            <button type="submit" id="place_order_credit" name="woocommerce_checkout_place_order" class="btn btn-success"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
                                                         </div>
 
                                                         <div class="clear"></div>
@@ -102,22 +108,28 @@
 
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="cpf_field">CPF:</label>
-                                                                    <input type="text" required="required" placeholder="" id="cpf_field" name="cpf" class="input-text">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="cpf_field">CPF:</label>
+                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="nascimento_field">Data de nascimento:</label>
-                                                                    <input type="date" required="required" placeholder="" id="nascimento_field" name="birth" class="input-text" style="margin-bottom: 10px; width: 100%; border: 1px solid #ddd; padding: 2px 10px;">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="nascimento_field">Data de nascimento:</label>
+                                                                    <input type="date" required="required" id="nascimento_field" name="birth" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="telefone_field">Telefone:</label>
-                                                                    <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="input-text" style="float:left; width: 60px;">
-                                                                    <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="input-text" style="float: left; margin-left: 10px; width: calc(100% - 70px);">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="telefone_field">Telefone:</label>
+                                                                    <div class="row">
+                                                                        <div class="col-4 inline-block">
+                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control">
+                                                                        </div>
+                                                                        <div class="col-8 inline-block">
+                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control">
+                                                                        </div>
+                                                                    </div>                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -126,8 +138,8 @@
                                                             <div class="col-sm-10 contents"></div>
                                                         </fieldset>
 
-                                                        <div class="form-row place-order">
-                                                                <button type="submit" id="place_order_debit" name="woocommerce_checkout_place_order" class="button alt btn"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
+                                                       <div class="form-group place-order">
+                                                            <button type="submit" id="place_order_credit" name="woocommerce_checkout_place_order" class="btn btn-success"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
                                                         </div>
 
                                                         <div class="clear"></div>
@@ -139,54 +151,62 @@
 
                                                     <form action="/payment/credit" class="checkout" method="post" name="checkout" style="padding:10px;" id="form-credit">
 
+                                                        <input type="hidden" name="brand" id="brand_field">
+
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="cpf_field">CPF:</label>
-                                                                    <input type="text" required="required" placeholder="" id="cpf_field" name="cpf" class="input-text">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="cpf_field">CPF:</label>
+                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="nascimento_field">Data de nascimento:</label>
-                                                                    <input type="date" required="required" placeholder="" id="nascimento_field" name="birth" class="input-text" style="margin-bottom: 10px; width: 100%; border: 1px solid #ddd; padding: 2px 10px;">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="nascimento_field">Data de nascimento:</label>
+                                                                    <input type="date" required="required" id="nascimento_field" name="birth" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="telefone_field">Telefone:</label>
-                                                                    <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="input-text" style="float:left; width: 60px;">
-                                                                    <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="input-text" style="float: left; margin-left: 10px; width: calc(100% - 70px);">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="telefone_field">Telefone:</label>
+                                                                    <div class="row">
+                                                                        <div class="col-4 inline-block">
+                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control">
+                                                                        </div>
+                                                                        <div class="col-8 inline-block">
+                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control">
+                                                                        </div>
+                                                                    </div>                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         
                                                         <div class="row">
-                                                            <div class="col-sm-4">
-                                                                    <div class="form-row form-row-wide address-field validate-required">
-                                                                        <label class="" for="name_field">Nome impresso no cartão:</label>
-                                                                        <input type="text" required="required" placeholder="" id="name_field" name="name" class="input-text">
+                                                            <div class="col-sm-6">
+                                                                    <div class="form-group validate-required">
+                                                                        <label for="name_field">Nome impresso no cartão:</label>
+                                                                        <input type="text" required="required" id="name_field" name="name" class="form-control">
                                                                     </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="number_field">Número do cartão:</label>
-                                                                    <input type="text" required="required" placeholder="" id="number_field" name="number" class="input-text">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="number_field">Número do cartão:</label>
+                                                                    <input type="text" required="required" id="number_field" name="number" class="form-control">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="cvv_field">Código de segurança:</label>
-                                                                    <input type="text" required="required" placeholder="" id="cvv_field" name="cvv" class="input-text">
+                                                            <div class="col-sm-2">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="cvv_field">Código:</label>
+                                                                    <input type="text" required="required" id="cvv_field" name="cvv" class="form-control">
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="row">
                                                             <div class="col-xs-6 col-sm-2">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="month_name">Validade:</label>
-                                                                    <select name="month" class="input-text" required="required">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="month_name">Validade:</label>
+                                                                    <select name="month" class="form-control" required="required">
                                                                         <option disabled="disabled" selected="selected" value="">Mês</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
@@ -204,9 +224,9 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-6 col-sm-2">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="month_name">&nbsp;</label>
-                                                                    <select name="year" class="input-text" required="required">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="month_name">&nbsp;</label>
+                                                                    <select name="year" class="form-control" required="required">
                                                                         <option disabled="disabled" selected="selected" value="">Ano</option>
                                                                         
                                                                         <?php foreach ($years as $value) {
@@ -220,23 +240,23 @@
                                                             <input type="hidden" name="installments_value">
                                                             <input type="hidden" name="installments_total">
                                                             <div class="col-xs-12 col-sm-4">
-                                                                <div class="form-row form-row-wide address-field validate-required">
-                                                                    <label class="" for="installments_field">Parcelamento</label>
-                                                                    <select name="installments" id="installments_field" class="input-text" required="required">
+                                                                <div class="form-group validate-required">
+                                                                    <label for="installments_field">Parcelamento</label>
+                                                                    <select name="installments" id="installments_field" class="form-control" required="required">
                                                                         <option disabled="disabled" selected="selected">Carregando...</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12">
-                                                                <div class="form-row form-row-wide address-field validate-required" style="margin-bottom:10px; display:inline-block;">
-                                                                    <label class="" for="month_name">Bandeiras aceitas</label>
+                                                                <div class="form-group validate-required" style="margin-bottom:10px; display:inline-block;">
+                                                                    <label for="month_name">Bandeiras aceitas</label>
                                                                     <div class="contents"></div>
                                                                 </div>
                                                             </div>
                                                         </div>                                                            
 
-                                                        <div class="form-row place-order">
-                                                            <button type="submit" id="place_order_credit" name="woocommerce_checkout_place_order" class="button alt btn"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
+                                                        <div class="form-group place-order">
+                                                            <button type="submit" id="place_order_credit" name="woocommerce_checkout_place_order" class="btn btn-success"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
                                                         </div>
 
                                                         <div class="clear"></div>
@@ -294,14 +314,73 @@
       PagSeguroDirectPayment.setSessionId('<?= $pagseguro['id'] ?>');
       /*console.log("<?= $pagseguro['id'] ?>");*/
 
-      //getPaymentMethods( 30.00 );
+      //getPaymentMethods( -1 );
       getPaymentMethods( <?= $pedido['vlTotal'] ?> );
 
 $(function () {
    
    $("#alert-error").hide();
 
-});  
+    //Get CreditCard Brand and check if is Internationl
+      $("#number_field").keyup(function(){
+        if ($("#number_field").val().length >= 6) {
+            PagSeguroDirectPayment.getBrand({
+                cardBin: $("#number_field").val().substring(0,6),
+                success: function(response) { 
+                        console.log(response);
+                        $("#brand_field").val(response['brand']['name']);
+                        $("#cvv_field").attr('size', response['brand']['cvvSize']);
+                        getInstallments();
+                },
+                error: function(response) {
+                    $("#alert-error span.msg").text('Bandeira do cartão não reconhecida!');
+                    $("#alert-error").show();
+                }
+            })
+        };
+      });
+
+      //Check installment
+      $("#installmentCheck").click(function(){
+        if($("#creditCardBrand").val() != '') {
+            getInstallments();
+        } else {
+            alert("Uma bandeira deve estar selecionada");
+        }
+      });
+
+}); 
+
+ 
+      
+      function getInstallments(){
+        var brand = $("#brand_field").val();
+        PagSeguroDirectPayment.getInstallments({
+            amount: parseFloat(<?= $pedido['vlTotal'] ?>),
+            brand: brand,
+            maxInstallmentNoInterest: parseInt(<?= $pagseguro['maxInstallmentNoInterest'] ?>), //calculo de parcelas sem juros
+            success: function(response) {
+                var installments = response['installments'][brand];
+                $("#installments_field").html('<option disabled="disabled"></option>');
+                buildInstallmentSelect(installments);
+            },
+            error: function(response) {
+                printError(response);
+            }
+        })
+      }
+      
+      function buildInstallmentSelect(installments){
+
+        var formatReal = { minimumFractionDigits: 2,
+                                style: "currency",
+                                currency: "BRL"
+                         };
+
+        $.each(installments, (function(key, value){
+            $("#installments_field").append("<option value = "+ value['quantity'] +">" + value['quantity'] + "x de " + value['installmentAmount'].toLocaleString("pt-BR", formatReal) + " - Total de " + value['totalAmount'].toLocaleString("pt-BR", formatReal) + "</option>");
+        }))
+      }
 
 
 
@@ -353,21 +432,13 @@ $(function () {
                 $("#tabs-methods .nav-link:last").tab('show');
                 
                 $("#payment-methods").show();
-                //$("#payment-methods").removeClass('hide');
-
-                //console.log(JSON.stringify(response));
-                console.log(response);
-
-                
-
 
             },
             error: function(response) {
                 printError(response);
             }
         })
-      } 
-
+      }
 
 </script>
 
