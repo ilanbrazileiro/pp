@@ -266,7 +266,9 @@
 <?php include 'view/frontend/footer.php' ?>
 <!-- JAVA ENTRA AQUI-->
 
-<script type="text/javascript" src="/res/frontend/plugin/handlebar/handlebars.runtime-v4.7.6.js"></script>
+<script type="text/javascript" src="/res/frontend/plugin/handlebar/handlebars-v4.7.6.js"></script> 
+
+<script src="<?= $pagseguro['urlJS'] ?>"></script>
 
 <script id="tpl-payment-debit" type="text/x-handlebars-template">
     <div class="form-check" style="padding: 10px;">
@@ -286,12 +288,13 @@
 <script id="tpl-installment" type="text/x-handlebars-template">
     <option>{{quantity}}x de R${{installmentAmount}} com juros (R${{totalAmount}})</option>
 </script>
-<script src="<?= $pagseguro['urlJS'] ?>"></script>
+
 <script type="text/javascript">
     //Session ID
       PagSeguroDirectPayment.setSessionId('<?= $pagseguro['id'] ?>');
       /*console.log("<?= $pagseguro['id'] ?>");*/
 
+      //getPaymentMethods( 30.00 );
       getPaymentMethods( <?= $pedido['vlTotal'] ?> );
 
 $(function () {
@@ -317,10 +320,47 @@ $(function () {
       
       function getPaymentMethods(valor){
         PagSeguroDirectPayment.getPaymentMethods({
-            amount: valor,
+            amount: parseFloat(valor),
             success: function(response) {
+
+                var tplDebit = Handlebars.compile($("#tpl-payment-debit").html());
+                var tplCredit = Handlebars.compile($("#tpl-payment-credit").html());
+
+                
+                $.each(response.paymentMethods.ONLINE_DEBIT.options, function(index, option){
+
+                    $("#tab-debito .contents").append(tplDebit({
+                        value: option.name,
+                        image: option.images.MEDIUM.path,
+                        text: option.displayName
+                    }));
+                    
+
+                });
+
+                $.each(response.paymentMethods.CREDIT_CARD.options, function(index, option){
+
+                    $("#tab-credito .contents").append(tplCredit({
+                        name: option.name,
+                        image: option.images.MEDIUM.path
+                    }));
+
+                });
+                
+
+                $("#loading").hide();
+
+                $("#tabs-methods .nav-link:last").tab('show');
+                
+                $("#payment-methods").show();
+                //$("#payment-methods").removeClass('hide');
+
                 //console.log(JSON.stringify(response));
                 console.log(response);
+
+                
+
+
             },
             error: function(response) {
                 printError(response);
