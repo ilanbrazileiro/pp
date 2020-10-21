@@ -287,8 +287,8 @@
 <!-- JAVA ENTRA AQUI-->
 
 <script type="text/javascript" src="/res/frontend/plugin/handlebar/handlebars-v4.7.6.js"></script> 
-
 <script src="<?= $pagseguro['urlJS'] ?>"></script>
+<script type="text/javascript" src="/res/extras/js/funcoes.js"></script> 
 
 <script id="tpl-payment-debit" type="text/x-handlebars-template">
     <div class="form-check" style="padding: 10px;">
@@ -349,6 +349,91 @@ $(function () {
         }
       });
 
+
+      $("#form-credit").on("submit", function(e){
+
+        e.preventDefault();
+
+        if (!isValidCPF($("#form-credit [name=cpf]").val())) {
+            $("#alert-error span.msg").text('Este número de CPF não é válido');
+            $("#alert-error").show();
+            return false;
+        } 
+
+        
+
+        $("#form-credit [type=submit]").attr("disabled", "disabled");
+
+        var formData = $(this).serializeArray();
+
+        var params = {};
+
+        $.each(formData, function(index, field){
+
+            params[field.name] = field.value;
+
+        });
+
+        PagSeguroDirectPayment.createCardToken({
+            cardNumber: params.number,
+            brand: params.brand,
+            cvv: params.cvv,
+            expirationMonth: params.month,
+            expirationYear: params.year,
+            success: function(response) {
+
+                console.log(response);
+
+                
+                params.token = response.card.token;
+
+                PagSeguroDirectPayment.onSenderHashReady(function(response){
+
+                    if(response.status == 'error') {
+                        console.log(response.message);
+                        return false;
+                    }
+
+                    var hash = response.senderHash;
+
+                    params.hash = hash;
+
+                    $.post(
+                        "/payment/credit",
+                        $.param(params),
+                        function(r){
+
+                            var response = JSON.parse(r);
+
+                            if (response.success === true) {
+
+                                window.location.href = "/payment/success";
+
+                            } else {
+
+                                showError("Não foi possível efetuar o pagamento.");
+                                
+                            }
+
+                        }
+                    );
+
+                });
+              
+
+            },
+            error: function(response) {
+                printError(response);
+            },
+            complete: function(response) {
+                
+                $("#form-credit [type=submit]").removeAttr("disabled");
+                    
+            }
+        });
+
+    });
+
 }); 
 
  
@@ -381,8 +466,6 @@ $(function () {
             $("#installments_field").append("<option value = "+ value['quantity'] +">" + value['quantity'] + "x de " + value['installmentAmount'].toLocaleString("pt-BR", formatReal) + " - Total de " + value['totalAmount'].toLocaleString("pt-BR", formatReal) + "</option>");
         }))
       }
-
-
 
       function printError(error){
         
@@ -439,6 +522,8 @@ $(function () {
             }
         })
       }
+
+
 
 </script>
 

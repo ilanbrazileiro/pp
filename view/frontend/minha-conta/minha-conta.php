@@ -39,7 +39,7 @@
                 <h3 class="profile-username text-center"><?= $cliente->getnome(); ?></h3>
 
                 <p class="text-muted text-center">Assinante básico 
-                  <small><a href="#">(Assine agora)</a></small>
+                  <small><a href="/carrinho">(Assine agora)</a></small>
                 </p>
 
                 <ul class="list-group list-group-unbordered mb-3">

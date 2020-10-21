@@ -30,6 +30,12 @@ class Order extends Model {
 
 	}
 
+	public function getAddress(){
+
+		
+		
+	}
+
 
 
 }
