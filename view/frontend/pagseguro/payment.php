@@ -322,7 +322,7 @@ $(function () {
    $("#alert-error").hide();
 
     //Get CreditCard Brand and check if is Internationl
-      $("#number_field").keyup(function(){
+      $("#number_field").on('change' ,function(){
         if ($("#number_field").val().length >= 6) {
             PagSeguroDirectPayment.getBrand({
                 cardBin: $("#number_field").val().substring(0,6),
@@ -358,9 +358,11 @@ $(function () {
             $("#alert-error span.msg").text('Este número de CPF não é válido');
             $("#alert-error").show();
             return false;
-        } 
+        }
 
-        
+        $("[name=installments_qtd]").val($("#installments_field").find("option:selected").data("qtd"));
+        $("[name=installments_value]").val($("#installments_field").find("option:selected").data("amount"));
+        $("[name=installments_total]").val($("#installments_field").find("option:selected").data("totalamount"));
 
         $("#form-credit [type=submit]").attr("disabled", "disabled");
 
@@ -410,7 +412,8 @@ $(function () {
                                 window.location.href = "/payment/success";
 
                             } else {
-
+                                printError(response);
+                                 $("#form-credit [type=submit]").removeAttr("disabled");
                                 showError("Não foi possível efetuar o pagamento.");
                                 
                             }
@@ -424,6 +427,7 @@ $(function () {
             },
             error: function(response) {
                 printError(response);
+                $("#form-credit [type=submit]").removeAttr("disabled");
             },
             complete: function(response) {
                 
@@ -448,6 +452,7 @@ $(function () {
                 var installments = response['installments'][brand];
                 $("#installments_field").html('<option disabled="disabled"></option>');
                 buildInstallmentSelect(installments);
+
             },
             error: function(response) {
                 printError(response);
@@ -463,7 +468,8 @@ $(function () {
                          };
 
         $.each(installments, (function(key, value){
-            $("#installments_field").append("<option value = "+ value['quantity'] +">" + value['quantity'] + "x de " + value['installmentAmount'].toLocaleString("pt-BR", formatReal) + " - Total de " + value['totalAmount'].toLocaleString("pt-BR", formatReal) + "</option>");
+            $("#installments_field").append("<option value = "+ value['quantity'] +" data-qtd='"+ value['quantity'] +"' data-amount='"+ value['installmentAmount'] +"' data-totalamount='"+ value['totalAmount'] +"'>" + value['quantity'] + "x de " + value['installmentAmount'].toLocaleString("pt-BR", formatReal) + " - Total de " + value['totalAmount'].toLocaleString("pt-BR", formatReal) + "</option>");
+
         }))
       }
 
