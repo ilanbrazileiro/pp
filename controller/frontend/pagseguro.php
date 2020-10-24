@@ -83,7 +83,12 @@ $app->post('/payment/credit', function() {
 		$endereco['pais']
 	);
 	$birthDate = new DateTime($_POST['birth']);
-	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	
+
+	############## ALTERAR ESSA LINHA QUANDO FOR PARA PRODUÇãAO
+	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, 'c09040931515743173567@sandbox.pagseguro.com.br', $_POST['hash']);
+	//$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	
 	$holder = new Holder($cliente->getnome(), $cpf, $birthDate, $phone);
 	//Endereço de entrega
 	$shipping = new Shipping($address, (float)$valor_envio, Shipping::SEDEX);
@@ -114,10 +119,8 @@ $app->post('/payment/credit', function() {
 	
 	$payment->setCreditCard($creditCard);
 
-	//gera documento XML
-	$dom = $payment->getDOMDocument();
-
-	echo $dom->saveXML();
+	//Enviando o XML para o Pagseguro
+	Transporter::sendTransaction($payment);
 
 
 });

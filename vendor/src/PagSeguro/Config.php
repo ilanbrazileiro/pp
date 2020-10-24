@@ -10,7 +10,7 @@ class Config {
     const SANDBOX = true;
     
     const SANDBOX_EMAIL = "imm-tecnologia@imm-tecnologia.com.br";
-    const PRODUCTION_EMAIL = "";
+    const PRODUCTION_EMAIL = "imm-tecnologia@imm-tecnologia.com.br";
 
     const SANDBOX_TOKEN = "D2559F2D7A55459098E7186EAD527F21";
     const PRODUCTION_TOKEN = "";
@@ -27,10 +27,10 @@ class Config {
     const SANDBOX_URL_NOTIFICATION = "https://ws.sandbox.pagseguro.uol.com.br/v3/transactions/notifications/";
 	const PRODUCTION_URL_NOTIFICATION =	"https://ws.pagseguro.uol.com.br/v3/transactions/notifications/";
 
-    const MAX_INSTALLMENT_NO_INTEREST = 0;
+    const MAX_INSTALLMENT_NO_INTEREST = 2;
     const MAX_INSTALLMENT = 10;
 
-    const NOTIFICATION_URL = "http://www.html5dev.com.br/payment/notification";
+    const NOTIFICATION_URL = "http://www.papirar.com.br/payment/notification";
 
     /*
 	** Verifica se estamos utilizando a PRODUÇÃO ou o SANDBOX

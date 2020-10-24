@@ -42,11 +42,12 @@ class Transporter {
 		
 		$xml = simplexml_load_string($res->getBody()->getContents());
 
+		
 		$order = new Order();
 
 		$order->get((int)$xml->reference);
 
-		$order->setPagSeguroTransactionResponse(
+		$test = $order->setPagSeguroTransactionResponse(
 			(string)$xml->code,
 			(float)$xml->grossAmount,
 			(float)$xml->discountAmount,
