@@ -95,6 +95,7 @@
 
                                                         <div class="form-group place-order">
                                                             <button type="submit" id="place_order_credit" name="woocommerce_checkout_place_order" class="btn btn-success"><i class="fa fa-refresh fa-spin fa-fw margin-bottom hide"></i>Continuar</button>
+                                                            <span class="msgPagamento text-red">Aguarde o processamento do seu pedido!</span>
                                                         </div>
 
                                                         <div class="clear"></div>
@@ -320,6 +321,7 @@
 $(function () {
    
    $("#alert-error").hide();
+   $(".msgPagamento").hide();
 
     //Get CreditCard Brand and check if is Internationl
       $("#number_field").on('change' ,function(){
@@ -350,10 +352,72 @@ $(function () {
       });
 
 
+/////////Evento para pagamento com DEBITO
+$("#form-debit").on("submit", function(e){
+
+       e.preventDefault();
+
+        $("#form-debit [type=submit]").prop("disabled", "disabled");
+        $("#form-debit .msgPagamento").show();
+
+        if (!isValidCPF($("#form-debit [name=cpf]").val())) {
+            $("#alert-error span.msg").text('Este número de CPF não é válido');
+            $("#alert-error").show();
+            return false;
+        }
+
+        var formData = $(this).serializeArray();
+
+        var params = {};
+
+        $.each(formData, function(index, field){
+
+            params[field.name] = field.value;
+
+        });
+
+        PagSeguroDirectPayment.onSenderHashReady(function(response){
+
+            if(response.status == 'error') {
+                console.log(response.message);
+                return false;
+            }
+
+            var hash = response.senderHash;
+
+            params.hash = hash;
+
+            $.post(
+                "/payment/debito",
+                $.param(params),
+                function(r){
+
+                    var response = JSON.parse(r);
+
+                    if (response.success === true) {
+
+                        window.location.href = "/payment/success/debit";
+
+                    } else {
+
+                        printError("Não foi possível efetuar o pagamento.");
+                        
+                    }
+
+                }
+            );
+
+        });
+
+    });
+
 /////////Evento para pagamento com BOLETO
       $("#form-boleto").on("submit", function(e){
 
         e.preventDefault();
+
+        $("#form-boleto [type=submit]").prop("disabled", "disabled");
+        $("#form-boleto .msgPagamento").show();
 
         if (!isValidCPF($("#form-boleto [name=cpf]").val())) {
             $("#alert-error span.msg").text('Este número de CPF não é válido');
