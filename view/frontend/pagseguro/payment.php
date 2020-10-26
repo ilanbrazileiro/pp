@@ -384,9 +384,6 @@ $(function () {
             expirationYear: params.year,
             success: function(response) {
 
-                console.log(response);
-
-                
                 params.token = response.card.token;
 
                 PagSeguroDirectPayment.onSenderHashReady(function(response){
@@ -404,7 +401,7 @@ $(function () {
                         "/payment/credit",
                         $.param(params),
                         function(r){
-
+                                                        
                             var response = JSON.parse(r);
 
                             if (response.success === true) {
@@ -414,8 +411,6 @@ $(function () {
                             } else {
                                 printError(response);
                                  $("#form-credit [type=submit]").removeAttr("disabled");
-                                showError("Não foi possível efetuar o pagamento.");
-                                
                             }
 
                         }

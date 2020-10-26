@@ -122,6 +122,23 @@ $app->post('/payment/credit', function() {
 	//Enviando o XML para o Pagseguro
 	Transporter::sendTransaction($payment);
 
+	echo json_encode([
+        'success'=>true
+    ]);
+
+});
+
+$app->get('/payment/success', function(){
+
+    $cliente = Clientes::verifyLogin();
+
+    $order = new Order();
+
+    $order->getFromSession();
+
+    $pedido = $order->getValues();
+    
+  	include "view/frontend/pagseguro/payment-success.php";
 
 });
 
@@ -132,6 +149,7 @@ $app->get('/payment/pagseguro', function() {// Suporte
 
 	$order = new Order();
 
+	//JOga o pedido para a sessão
 	$order->toSession();//Esse comando deve estar na rota do carrinho ou do Checkout
 
 	$order->getFromSession();
