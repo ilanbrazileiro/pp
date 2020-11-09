@@ -9,10 +9,10 @@ class Config {
 
     const SANDBOX = true;
     
-    const SANDBOX_EMAIL = "imm-tecnologia@imm-tecnologia.com.br";
-    const PRODUCTION_EMAIL = "imm-tecnologia@imm-tecnologia.com.br";
+    const SANDBOX_EMAIL = "";
+    const PRODUCTION_EMAIL = "";
 
-    const SANDBOX_TOKEN = "D2559F2D7A55459098E7186EAD527F21";
+    const SANDBOX_TOKEN = "";
     const PRODUCTION_TOKEN = "";
 
     const SANDBOX_SESSIONS = "https://ws.sandbox.pagseguro.uol.com.br/v2/sessions";

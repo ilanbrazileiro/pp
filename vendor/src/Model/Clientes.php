@@ -21,6 +21,13 @@ class Clientes extends Model {
 		$result = $sql->select("SELECT * FROM clientes WHERE id_cliente = '$id_cliente'");
 		return $result[0];
 	}
+
+	public function getCompleto($id_cliente)
+	{
+		$sql = new Sql();
+		$result = $sql->select("SELECT c.*, e.* FROM clientes as c INNER JOIN endereco e USING(id_cliente) WHERE id_cliente = '$id_cliente'");
+		return $result[0];
+	}
 	/*
 	Retorna todos os clientes cadastrados
 	*/
@@ -257,6 +264,29 @@ class Clientes extends Model {
 		} else {
 			return false;
 		}
+	}
+
+	public function atualizaCadastroPagamento($id_cliente, $dados){
+
+		$sql = new Sql();
+
+		$cliente = $sql->select('CALL atualiza_cadastro_pagamento(:ID_CLIENTE , :CPF, :DDD, :CELULAR, :CEP, :LOGRADOURO, :NUMERO, :COMPLEMENTO, :BAIRRO, :CIDADE, :UF, :PAIS)', array(
+			':ID_CLIENTE' => $id_cliente,
+			':CPF' => $dados['cpf'],
+			':DDD' => $dados['ddd'],
+			':CELULAR' => $dados['telefone'],
+			':CEP' => $dados['cep'],
+			':LOGRADOURO' => $dados['logradouro'],
+			':NUMERO' => $dados['numero'],
+			':COMPLEMENTO' => $dados['complemento'],
+			':BAIRRO' => $dados['bairro'],
+			':CIDADE' => $dados['cidade'],
+			':UF' => $dados['uf'],
+			':PAIS' => $dados['pais']
+		));
+
+
+
 	}
 
 }//FIM DA CLASSE

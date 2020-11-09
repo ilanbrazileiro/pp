@@ -1,5 +1,7 @@
 <?php 
 
+use Questoes\DB\Sql;
+
 function exibeFuncao($funcao){
 	if ($funcao == 'admin'){
 		return 'Administrador';
@@ -43,8 +45,14 @@ function textoMotivo($motivo){
 }
 
 function exibeData($data){
+	if ($data == ''){return '';}
 	$p = explode('-', $data);
 	return $p[2].'/'.$p[1].'/'.$p[0];
+}
+
+function dataBanco($data){
+	$p = explode('/', $data);
+	return $p[2].'-'.$p[1].'-'.$p[0];
 }
 
 /*
@@ -106,5 +114,30 @@ function geraAnosCartao(){
 
 	return $years;
 }
+
+function qtdDias($data1, $data2){
+
+	$data1 = new DateTime( $data1 );
+	$data2 = new DateTime( $data2 );
+
+	$intervalo = $data2->diff( $data1 );
+
+	return $intervalo->d;
+}
+
+function getSituacao($situacao){
+	$sql = new Sql();
+	$result = $sql->select('SELECT situacao FROM situacao_pedido WHERE id_situacao = '.$situacao);
+	foreach ($result as $value) {
+		return $value['situacao'];
+	}
+}
+
+function bancoParaMoeda($moeda){
+
+	return number_format($moeda,2,',','.');
+
+}
+
 
  ?>

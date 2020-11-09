@@ -427,7 +427,7 @@ $app->get('/admin/clientes/deletar/:id_cliente', function($id_cliente) {////////
 });
 
 include 'controller/backend/suporte.php'; //Inclui páginas do Suporte
-
+include 'controller/backend/financeiro.php'; //Inclui páginas do financeiro
 /*
 $app->get('/admin/cursos/adicionar', function() {////////////////////
 	Usuario::verifyLogin();

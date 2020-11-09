@@ -38,8 +38,53 @@
                                         <span class="msg">Error</span>
                                     </div>
 
+                                    <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Detalhes da Compra</h3>
+        </div>
+
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <h3>Assinatura Premium</h3>
+                <div class="post">
+                  <p>
+                    Tenha acesso liberado a todo o conteúdo e questões do Papirar.com.br
+                    e tenha seu aprendizado de forma prática e dinâmica.  
+                  </p>
+                </div>
+                <div class="post">
+                  <p>
+                    <small>Você terá acesso até <span id="data"><?= exibeData($pedido['dt_expira']) ?></span>  </small>
+                  </p>
+                  <p>
+                    <small>Aceitamos cartões de crédito, débito online e boleto bancário</small>
+                  </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-2 pl-3 mr-9">
+                  <label for="qtd">Qtd Dias</label>
+                  <h3 class="form-control"><?= $order->getqtd() ?></h3>
+            </div>
+
+            <div class="col-lg-1">
+            </div>
+            
+            <div class="col-lg-3">
+              <h5 class="text-muted">Total:</h5>
+              <h1><span id="valor">R$ <?= number_format($pedido['valor'],2,',','')?></span></h1>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div><!-- /CARD -->
+
 									<div class="woocommerce-billing-fields">
-										<h3>Forma de Pagamento</h3>
+										<h3>Escolha a sua Forma de Pagamento</h3>
 
                                         <div id="loading" style="margin:10px 0;">
                                             <i class="fas fa-3x fa-sync-alt fa-spin"></i> Carregando métodos de pagamento...
@@ -69,7 +114,7 @@
                                                           <div class="col-sm-4">
                                                                 <div class="form-group validate-required">
                                                                     <label for="cpf_field">CPF:</label>
-                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control">
+                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control" value="<?= $clientes['cpf'] ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
@@ -83,10 +128,10 @@
                                                                     <label for="telefone_field">Telefone:</label>
                                                                     <div class="row">
                                                                         <div class="col-4 inline-block">
-                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control">
+                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control" value="<?= $clientes['ddd'] ?>">
                                                                         </div>
                                                                         <div class="col-8 inline-block">
-                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control">
+                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control" value="<?= $clientes['celular'] ?>">
                                                                         </div>
                                                                     </div>                                                                    
                                                                 </div>
@@ -111,7 +156,7 @@
                                                             <div class="col-sm-4">
                                                                 <div class="form-group validate-required">
                                                                     <label for="cpf_field">CPF:</label>
-                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control">
+                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control" value="<?= $clientes['cpf'] ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
@@ -125,10 +170,10 @@
                                                                     <label for="telefone_field">Telefone:</label>
                                                                     <div class="row">
                                                                         <div class="col-4 inline-block">
-                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control">
+                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control" value="<?= $clientes['ddd'] ?>">
                                                                         </div>
                                                                         <div class="col-8 inline-block">
-                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control">
+                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control" value="<?= $clientes['celular'] ?>">
                                                                         </div>
                                                                     </div>                                                                    
                                                                 </div>
@@ -158,7 +203,7 @@
                                                             <div class="col-sm-4">
                                                                 <div class="form-group validate-required">
                                                                     <label for="cpf_field">CPF:</label>
-                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control">
+                                                                    <input type="text" required="required" id="cpf_field" name="cpf" class="form-control" value="<?= $clientes['cpf'] ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
@@ -172,10 +217,10 @@
                                                                     <label for="telefone_field">Telefone:</label>
                                                                     <div class="row">
                                                                         <div class="col-4 inline-block">
-                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control">
+                                                                            <input type="text" required="required" maxlength="2" minlength="2" placeholder="DDD" id="ddd_field" name="ddd" class="form-control" value="<?= $clientes['ddd'] ?>">
                                                                         </div>
                                                                         <div class="col-8 inline-block">
-                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control">
+                                                                            <input type="text" required="required" maxlength="9" minlength="8" placeholder="Número" id="telefone_field" name="phone" class="form-control" value="<?= $clientes['celular'] ?>">
                                                                         </div>
                                                                     </div>                                                                    
                                                                 </div>
@@ -313,10 +358,8 @@
 <script type="text/javascript">
     //Session ID
       PagSeguroDirectPayment.setSessionId('<?= $pagseguro['id'] ?>');
-      /*console.log("<?= $pagseguro['id'] ?>");*/
-
-      //getPaymentMethods( -1 );
-      getPaymentMethods( <?= $pedido['vlTotal'] ?> );
+            
+      getPaymentMethods( <?= $pedido['valor'] ?> );
 
 $(function () {
    
@@ -561,7 +604,7 @@ $("#form-debit").on("submit", function(e){
       function getInstallments(){
         var brand = $("#brand_field").val();
         PagSeguroDirectPayment.getInstallments({
-            amount: parseFloat(<?= $pedido['vlTotal'] ?>),
+            amount: parseFloat(<?= $pedido['valor'] ?>),
             brand: brand,
             maxInstallmentNoInterest: parseInt(<?= $pagseguro['maxInstallmentNoInterest'] ?>), //calculo de parcelas sem juros
             success: function(response) {

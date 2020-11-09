@@ -21,6 +21,11 @@ use Questoes\PagSeguro\CreditCard\Installment;
 
 ###################### PAGSEGURO #############################
 
+$app->post('/payment/notification', function(){
+
+	Transporter::getNotification($_POST['notificationCode'], $_POST['notificationType']);
+
+});
 
 ##################### PAGAR POR CARTÃO DE CRÉDITO ######################
 $app->post('/payment/credit', function() {
@@ -41,25 +46,14 @@ $app->post('/payment/credit', function() {
 	//Pegar o Pedido da Sessão
 	$order->getFromSession();
 
-	//Carregar o endereço do cliente e consequente endereço da fatura do cartão
-	$endereco = [
-		'logradouro'	=> 'rua blâ bla blá',
-		'numero'		=> '440',
-		'bairro'		=> 'Vila Capri Á é ço',
-		'cep'			=> '21211123',
-		'cidade'		=> 'Rio de Janeiro',
-		'uf'			=> 'RJ',
-		'pais'			=> 'Brasil',
-		'complemento'	=> 'Bloco C Apto 203 lote XV',
-
-	];
+	$order->get((int)$order->getid_pedido());
 
 	// buscar o carrinho de compra completo, mesmo se tiver mais de um item
 	$cart = [
 		0 => [
 		'id_produto' 	=> 1,
-		'descricao'		=> 'Mensalidades',
-		'valor_produto'	=> 30.00,
+		'descricao'		=> 'Assinatura Premium',
+		'valor_produto'	=> (float)$order->getvalor(),
 		'qtd'			=> 1
 	]];
 	
@@ -67,30 +61,36 @@ $app->post('/payment/credit', function() {
 	// preencher caso necessário
 	$valor_envio = 0.0;
 
+
 	
 	###############################################################
 	###			CLASSES PARA A CONTRUÇÃO DO ARQUIVO XML 		###
 
 	//passa o tipo de documento e o numero do CPF
 	$cpf = new Document(Document::CPF, $_POST['cpf']);
+
+	$_POST['phone'] = str_replace('-', '', $_POST['phone']);
 	//Passa o DDD e o numero do telefone
-	$phone = new Phone($_POST['ddd'], $_POST['phone']);
-	$address = new Address(
-		$endereco['logradouro'],
-		$endereco['numero'],
-		$endereco['complemento'],
-		$endereco['bairro'],
-		$endereco['cep'],
-		$endereco['cidade'],
-		$endereco['uf'],
-		$endereco['pais']
+	$phone = new Phone((int)$_POST['ddd'], (int)$_POST['phone']);
+	$address = new Address($order->getlogradouro(),
+		$order->getnumero(),
+		$order->getcomplemento(),
+		$order->getbairro(),
+		$order->getcep(),
+		$order->getcidade(),
+		$order->getuf(),
+		$order->getpais()
 	);
+
 	$birthDate = new DateTime($_POST['birth']);
 	
 
 	############## ALTERAR ESSA LINHA QUANDO FOR PARA PRODUÇãAO
+	if (Config::SANDBOX === true){
 	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, 'c09040931515743173567@sandbox.pagseguro.com.br', $_POST['hash']);
-	//$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	} else {
+	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	}
 	
 	$holder = new Holder($cliente->getnome(), $cpf, $birthDate, $phone);
 	//Endereço de entrega
@@ -98,19 +98,19 @@ $app->post('/payment/credit', function() {
 	$installment = new Installment((int)$_POST['installments_qtd'], (float)$_POST['installments_value']);
 	//Endereço da fatura
 	$billingAddress = new Address(
-		$endereco['logradouro'],
-		$endereco['numero'],
-		$endereco['complemento'],
-		$endereco['bairro'],
-		$endereco['cep'],
-		$endereco['cidade'],
-		$endereco['uf'],
-		$endereco['pais']
+		$order->getlogradouro(),
+		$order->getnumero(),
+		$order->getcomplemento(),
+		$order->getbairro(),
+		$order->getcep(),
+		$order->getcidade(),
+		$order->getuf(),
+		$order->getpais()
 	);
 	//dados do cartao de crédito
 	$creditCard = new CreditCard($_POST['token'], $installment, $holder, $billingAddress);
 
-	$payment = new Payment((int)$order->getid_order(), $sender, $shipping);
+	$payment = new Payment((int)$order->getid_pedido(), $sender, $shipping);
 
 	foreach ($cart as $produto) {
 	
@@ -150,25 +150,14 @@ $app->post('/payment/boleto', function() {
 	//Pegar o Pedido da Sessão
 	$order->getFromSession();
 
-	//Carregar o endereço do cliente e consequente endereço da fatura do cartão
-	$endereco = [
-		'logradouro'	=> 'rua blâ bla blá',
-		'numero'		=> '440',
-		'bairro'		=> 'Vila Capri Á é ço',
-		'cep'			=> '21211123',
-		'cidade'		=> 'Rio de Janeiro',
-		'uf'			=> 'RJ',
-		'pais'			=> 'Brasil',
-		'complemento'	=> 'Bloco C Apto 203 lote XV',
-
-	];
+	$order->get((int)$order->getid_pedido());
 
 	// buscar o carrinho de compra completo, mesmo se tiver mais de um item
 	$cart = [
 		0 => [
 		'id_produto' 	=> 1,
-		'descricao'		=> 'Mensalidades',
-		'valor_produto'	=> 30.00,
+		'descricao'		=> 'Assinatura Premium',
+		'valor_produto'	=> (float)$order->getvalor(),
 		'qtd'			=> 1
 	]];
 	
@@ -182,29 +171,32 @@ $app->post('/payment/boleto', function() {
 
 	//passa o tipo de documento e o numero do CPF
 	$cpf = new Document(Document::CPF, $_POST['cpf']);
+
+	$_POST['phone'] = str_replace('-', '', $_POST['phone']);
 	//Passa o DDD e o numero do telefone
-	$phone = new Phone($_POST['ddd'], $_POST['phone']);
+	$phone = new Phone((int)$_POST['ddd'], (int)$_POST['phone']);
 	$address = new Address(
-		$endereco['logradouro'],
-		$endereco['numero'],
-		$endereco['complemento'],
-		$endereco['bairro'],
-		$endereco['cep'],
-		$endereco['cidade'],
-		$endereco['uf'],
-		$endereco['pais']
+		$order->getlogradouro(),
+		$order->getnumero(),
+		$order->getcomplemento(),
+		$order->getbairro(),
+		$order->getcep(),
+		$order->getcidade(),
+		$order->getuf(),
+		$order->getpais()
 	);
 	$birthDate = new DateTime($_POST['birth']);
 	
-
-	############## ALTERAR ESSA LINHA QUANDO FOR PARA PRODUÇãAO
+	if (Config::SANDBOX === true){
 	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, 'c09040931515743173567@sandbox.pagseguro.com.br', $_POST['hash']);
-	//$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	} else {
+	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	}
 	
 	//Endereço de entrega
 	$shipping = new Shipping($address, (float)$valor_envio, Shipping::SEDEX);
 	
-	$payment = new Payment((int)$order->getid_order(), $sender, $shipping);
+	$payment = new Payment((int)$order->getid_pedido(), $sender, $shipping);
 
 	foreach ($cart as $produto) {
 	
@@ -244,25 +236,14 @@ $app->post('/payment/debito', function() {
 	//Pegar o Pedido da Sessão
 	$order->getFromSession();
 
-	//Carregar o endereço do cliente e consequente endereço da fatura do cartão
-	$endereco = [
-		'logradouro'	=> 'rua blâ bla blá',
-		'numero'		=> '440',
-		'bairro'		=> 'Vila Capri Á é ço',
-		'cep'			=> '21211123',
-		'cidade'		=> 'Rio de Janeiro',
-		'uf'			=> 'RJ',
-		'pais'			=> 'Brasil',
-		'complemento'	=> 'Bloco C Apto 203 lote XV',
-
-	];
+	$order->get((int)$order->getid_pedido());
 
 	// buscar o carrinho de compra completo, mesmo se tiver mais de um item
 	$cart = [
 		0 => [
 		'id_produto' 	=> 1,
-		'descricao'		=> 'Mensalidades',
-		'valor_produto'	=> 30.00,
+		'descricao'		=> 'Assinatura Premium',
+		'valor_produto'	=> (float)$order->getvalor(),
 		'qtd'			=> 1
 	]];
 	
@@ -276,29 +257,31 @@ $app->post('/payment/debito', function() {
 
 	//passa o tipo de documento e o numero do CPF
 	$cpf = new Document(Document::CPF, $_POST['cpf']);
+	$_POST['phone'] = str_replace('-', '', $_POST['phone']);
 	//Passa o DDD e o numero do telefone
-	$phone = new Phone($_POST['ddd'], $_POST['phone']);
+	$phone = new Phone((int)$_POST['ddd'], (int)$_POST['phone']);
 	$address = new Address(
-		$endereco['logradouro'],
-		$endereco['numero'],
-		$endereco['complemento'],
-		$endereco['bairro'],
-		$endereco['cep'],
-		$endereco['cidade'],
-		$endereco['uf'],
-		$endereco['pais']
+		$order->getlogradouro(),
+		$order->getnumero(),
+		$order->getcomplemento(),
+		$order->getbairro(),
+		$order->getcep(),
+		$order->getcidade(),
+		$order->getuf(),
+		$order->getpais()
 	);
 	$birthDate = new DateTime($_POST['birth']);
 	
-
-	############## ALTERAR ESSA LINHA QUANDO FOR PARA PRODUÇãAO
+	if (Config::SANDBOX === true){
 	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, 'c09040931515743173567@sandbox.pagseguro.com.br', $_POST['hash']);
-	//$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
-	
+	} else {
+	$sender = new Sender($cliente->getnome(), $cpf, $birthDate, $phone, $cliente->getemail(), $_POST['hash']);
+	}
+
 	//Endereço de entrega
 	$shipping = new Shipping($address, (float)$valor_envio, Shipping::SEDEX);
 	
-	$payment = new Payment((int)$order->getid_order(), $sender, $shipping);
+	$payment = new Payment((int)$order->getid_pedido(), $sender, $shipping);
 
 	foreach ($cart as $produto) {
 	
@@ -346,7 +329,7 @@ $app->get('/payment/success/boleto', function(){
 
     $order->getFromSession();
 
-    $order->get((int)$order->getid_order());
+    $order->get((int)$order->getid_pedido());
 
     $pedido = $order->getValues();
     
@@ -363,7 +346,7 @@ $app->get('/payment/success/debit', function(){
 
     $order->getFromSession();
 
-    $order->get((int)$order->getid_order());
+    $order->get((int)$order->getid_pedido());
 
     $pedido = $order->getValues();
     
@@ -371,14 +354,12 @@ $app->get('/payment/success/debit', function(){
 
 });
 
-$app->get('/payment/pagseguro', function() {// Suporte
+$app->get('/payment/pagseguro', function() {
 
 	$cliente = Clientes::verifyLogin();
+	$clientes = $cliente->getCompleto($cliente->getid_cliente());
 
 	$order = new Order();
-
-	//JOga o pedido para a sessão
-	$order->toSession();//Esse comando deve estar na rota do carrinho ou do Checkout
 
 	$order->getFromSession();
 
@@ -395,47 +376,9 @@ $app->get('/payment/pagseguro', function() {// Suporte
 		'maxInstallment'	=> Config::MAX_INSTALLMENT
 	];
 
-
-	
-	/*
-	echo '<pre>';
-	var_dump($pedido['vlTotal']);
-	echo '</pre>';
-	*/
-
-
 	include "view/frontend/pagseguro/payment.php";
 
 });
-
-
-$app->get('/payment/pagseguro1', function() {// Suporte
-
-	$cliente = Clientes::verifyLogin();
-
-	$client = new Client();
-
-	$response = $client->request('POST', Config::getUrlSessions() . "?". http_build_query(Config::getAuthentication()), [
-		"verify" => false
-	]);
-
-	echo $response->getBody()->getContents(); 
-
-	$order = new Order();
-
-	$order->toSession();
-
-	echo '<pre>';
-	var_dump($_SESSION['OrderSession']);
-	echo '</pre>';
-
-
-
-	include "view/frontend/pagseguro/payment.php";
-
-});
-
-
 
 ################### FIM PAGSEGURO #############################
 

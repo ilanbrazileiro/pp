@@ -15,11 +15,11 @@ class Order extends Model {
 	private $id_order = 0;
 
 
-	//Carrega o Pedido na Sessão
-	public function toSession(){
 
-		$this->setvlTotal(30.00);
-		$this->setid_order(1);
+	//Carrega o Pedido na Sessão
+	public function toSession($pedido){
+
+		$this->setData($pedido);
 
 		$_SESSION[Order::SESSION] = $this->getValues();
 
@@ -32,9 +32,15 @@ class Order extends Model {
 
 	}
 
-	public function getAddress(){
+	public function getAddress($id_endereco){
 
-		
+		$sql = new Sql();
+
+		$endereco = $sql->select('SELECT * FROM endereco WHERE id_endereco = :ID_ENDERECO', array(
+			':ID_ENDERECO' 	=> (int)$id_endereco
+		));
+
+		return $endereco[0];
 		
 	}
 
@@ -73,9 +79,9 @@ class Order extends Model {
 
 		$results = $sql->select("
 			SELECT 
-				a.id_pedido, a.id_cliente, a.id_endereco, a.valor, a.situacao, 
+				a.id_pedido, a.id_cliente, a.id_endereco, a.valor, a.id_situacao, 
 				c.nome, c.email, c.celular,
-				e.logradouro, e.numero, e.complemento, e.bairro, e.cidade, e.uf, e.cep, 
+				e.logradouro, e.numero, e.complemento, e.bairro, e.cidade, e.uf, e.cep, e.pais, 
 				g.descode, g.vlgrossamount, g.vldiscountamount, g.vlfeeamount, g.vlnetamount, g.vlextraamount, g.despaymentlink
 			FROM pedido a 
 			INNER JOIN clientes c USING(id_cliente)  
@@ -88,8 +94,42 @@ class Order extends Model {
 
 		if (count($results) > 0) {
 			$this->setData($results[0]);
-		} 
+		}
 
+	}
+
+	public function save($id_cliente, $id_endereco, $dados)
+	{
+		$sql = new Sql();
+
+		$pedido = $sql->select('CALL cadastrar_pedido(:ID_CLIENTE, :VALOR, :ID_ENDERECO, :DT_EXPIRA)', array(
+			':ID_CLIENTE' 	=> (int)$id_cliente,
+			':VALOR'		=> (float)$dados['valor_total'],
+			':ID_ENDERECO'	=> (int)$id_endereco,
+			':DT_EXPIRA'	=> dataBanco($dados['data_expira'])
+		));
+
+		return $pedido[0];
+	}
+
+	public function updateSituacao($id_pedido, $situacao){
+		$sql = new Sql();
+
+		$pedido = $sql->select('CALL atualizar_situacao_pedido(:ID_PEDIDO, :SITUACAO)', array(
+			':ID_PEDIDO' 	=> (int)$id_pedido,
+			':SITUACAO'		=> (int)$situacao
+		));
+
+		return $pedido;
+	}
+
+	public function ListarTodos(){
+
+		$sql = new Sql();
+
+		$pedidos = $sql->select('SELECT p.*, c.nome, c.id_cliente FROM pedido as p INNER JOIN clientes as c ON p.id_cliente = c.id_cliente ORDER BY id_pedido DESC');
+
+		return $pedidos;
 	}
 
 

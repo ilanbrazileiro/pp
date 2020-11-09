@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 
                 <div class="jumbotron">
-                    <h1 class="display-3">Pedido n° <?= $order->getid_order() ?> recebido!</h1>
+                    <h1 class="display-3">Pedido n° <?= $order->getid_pedido() ?> recebido!</h1>
                     <p class="lead">Você ainda precisa pagar o boleto. Caso o boleto não seja pago até o vencimento, o pedido será cancelado.</p>
                     <hr class="my-4">
                     <p>O prazo de entrega é válido somente após a confirmação pela instituição financeira, que leva em média 5 dias.</p>

@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 
                 <div class="jumbotron">
-                    <h1 class="display-3">Pedido n° <?= $order->getid_order() ?> recebido!</h1>
+                    <h1 class="display-3">Pedido n° <?= $order->getid_pedido() ?> recebido!</h1>
                     <p class="lead">Você ainda precisa pagar usando o site do seu banco.</p>
                     <hr class="my-4">
                     <p>Use o botão abaixo para acessar o site do seu banco:</p>

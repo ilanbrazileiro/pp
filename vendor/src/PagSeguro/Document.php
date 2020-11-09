@@ -35,6 +35,9 @@ class Document {
 		}
 
 		$this->type = $type;
+		$value = str_replace('.', '', $value);
+		$value = str_replace('-', '', $value);
+
 		$this->value = $value;
 
 	}

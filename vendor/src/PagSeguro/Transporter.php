@@ -61,7 +61,7 @@ class Transporter {
 
 	}
 
-	public function getNotification(string $code, string $type)
+	public static function getNotification(string $code, string $type)
 	{
 
 		switch ($type)
@@ -81,19 +81,18 @@ class Transporter {
 			"verify"=>false
 		]);
 		
-		$xml = simplexml_load_string($res->getBody()->getContents());		
+		$xml = simplexml_load_string($res->getBody()->getContents());
 
+		//Carrega o Pedido Pela referencia do PagSeguro 
 		$order = new Order();
-
 		$order->get((int)$xml->reference);
+		
+		### Verifica se o Status do pedido é o mesmo que já está no banco de dados. Se for diferente, muda o Status
+		### Adaptar para a realidade de cada sistema!
+		if ($order->getid_situacao() !== (int)$xml->status){
+			$pedido = $order->updateSituacao((int)$xml->reference, (int)$xml->status);
 
-		if ($order->getidstatus() !== (int)$xml->status)
-		{
-
-			$order->setidstatus((int)$xml->status);
-
-			$order->save();
-
+			var_dump($pedido);
 		}
 
 		$filename = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "res" . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR . date("YmdHis") . ".json";
